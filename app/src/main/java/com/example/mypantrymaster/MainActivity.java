@@ -24,7 +24,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private static final int MY_REQUEST_CODE = 7117;  // This can be any number
-    List<AuthUI.IdpConfig> providers;
 
     Button sign_out_btn;
 
@@ -43,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 sign_out_btn.setEnabled(false);
-                                showSignInOption();
+                                showSignInOption(); //call function to
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -56,15 +55,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        providers = Arrays.asList(
-                new AuthUI.IdpConfig.EmailBuilder().build(), // Email Builder
-                new AuthUI.IdpConfig.GoogleBuilder().build() // Google Builder
-                );
+
 
         showSignInOption();
     }
 
     private void showSignInOption() {
+        List<AuthUI.IdpConfig> providers = Arrays.asList(
+                new AuthUI.IdpConfig.EmailBuilder().build(), // Email Builder
+                new AuthUI.IdpConfig.GoogleBuilder().build() // Google Builder
+        );
+
         startActivityForResult(
                 AuthUI.getInstance().createSignInIntentBuilder()
                 .setAvailableProviders(providers).setTheme(R.style.MyTheme)
@@ -82,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
             if(requestCode == RESULT_OK)
             {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                Toast.makeText(this, ""+user.getEmail(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, ""+user.getEmail(), Toast.LENGTH_LONG).show();
 
                 sign_out_btn.setEnabled(true);
             }
